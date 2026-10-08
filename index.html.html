@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Links</title>
+<style>
+  :root{color-scheme:dark}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:#111;color:#eee;font-family:system-ui,sans-serif;display:flex;justify-content:center;padding:24px 16px}
+  .box{width:100%;max-width:480px}
+  h1{font-size:1.2rem;margin:0 0 16px}
+  input,button{width:100%;padding:14px;font-size:1rem;border-radius:10px;border:1px solid #333;background:#1c1c1c;color:#eee;margin-bottom:10px}
+  button{background:#2d5bff;border:0;font-weight:600;cursor:pointer}
+  button.sec{background:#222;border:1px solid #333}
+  a.link{display:block;padding:14px;margin-bottom:8px;background:#1c1c1c;border:1px solid #2a2a2a;border-radius:10px;color:#eee;text-decoration:none;word-break:break-all;font-size:.9rem}
+  #err{color:#ff6b6b;min-height:1.2em;margin:0 0 8px}
+  #list{display:none}
+  small{color:#888;display:block;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="box">
+  <div id="lock">
+    <h1>Acesso restrito</h1>
+    <input id="pw" type="password" placeholder="Senha" autocomplete="off" autofocus>
+    <p id="err"></p>
+    <button id="go">Entrar</button>
+  </div>
+  <div id="list">
+    <h1>Links</h1>
+    <button id="all">Abrir todos</button>
+    <div id="items"></div>
+    <button class="sec" id="out">Bloquear</button>
+    <small>Para abrir todos, permita pop-ups para esta página na primeira vez. Use esta página dentro de uma aba anônima.</small>
+  </div>
+</div>
+<script>
+const D={s:"7j1loE2gciIkmlH8q9dq3g==",i:"VOzRfLTA41E4ynnh",c:"HP62lIP3/QY79Wgs1J0d2JvpSWWKvEt/u18YQ823DRJy2kpWJR3G3ub9y2uMgqFlhUMcj8NsBXWNusJuD1IjO7zup4a0EltV+lZ9JTWCWw1w4aGnH/kYQXlkVkPLILuvRvX0u3aktZ3626Nv580q49p70e2YBSyqP2VJBqW5QelSwTBu8vrzC5H1mcCpj2RrB4ZnRUivSElU/PszfGf4fCWlGAf084QBrKqMwy8PEvil9pOJpyLuWHxghHu6OYSM6OrGuXXqpaK59f4/UE0KTVuVniFU0v/drUavW3sgsXvW9JJ98L+JAir72xhu0xY8U26/EQfcNoe2L4ijigN2U7LCixJgIAiSkve7kUCHUfpJH4wTHARTjUNGE87SL8znB7rmU9IMnVU9rVwiIlpcKX5R/wVLfP31iEDjimo0G75Arp7DMpXlfMoidCUy8N5reior/3Qbl9vwRg+wenG0Vi4m39VvrM1D0vn4lmxtb9QHWMgQIFrdhKyS+dt7BcnEKJLW41/odqx9cLVzRx2dIR8vABaRpGhg/IDQV2RmlVP9LprD0pd8col4YTEVot8pBrUdfwrCL5oSUZwRiDD2LWZ6LNcjjE9VreIJV2pd5+nnKbKdAwl/rY2vDJlfv3h8F+PBqs1G/nOgVCDhx46Qr7mYrEp6NlEaXKDvFGvjy0dVAq2gPG7ibMLhLga3zcUb76/pJFkGMyJPGtQpAxZZnaCioR/iTsrB9Rk+Ad33Vl173WtT+o4lSgVYks6mc4naBwRhRtDzXocUfIa/9k+01SNtXT635/gOECK8pSGauD+Zk8IyK9oLk2L8R+I0FJVSpCV9T1+H/AVKh+ysp5ipxQx/pLgZ8W6kcIzrF+tNfphlyATQttGSPrvG64AldvF8zBXlbTYcW/M1+PQ6EQece/0635oGEaTSnfBF//19Vvxua12Q6EmDy716VEY+WHM0xbsGdUALus5NAELi5sAGR//wIWIlgr6MN2yVjiXaW4tn9uMcNL4BtCwldWX3s0TElGKMKXv7XwA9gNBsVT0HGlc6yG0pt3LaY+CtiX3QUMn3EUW6M1Az2cwKnVVV+tBpVr5EoBhq7fh9z6T+gKcKQYh86nWY09SySJsPvZQVWygftNwcaca/AqyRjelzva+osvk06U/zsjGcr7I1H6RuLsCih6mVEY9T1WzsXRwTn8UEssupAZWF9dvZPJid/FMuj+lAcu9J3RxU7BYFZDleKJOkyzX2VmyO8wjJvj7gYU5vEavwG3cDLUHPWkN6ej37WJsLY+yGbn+1N75GPEzSNva2USHpFs0+uKNkvaRiT98wKsOMS+1eTBDJ0AC3rFqBmvJEKwKKWt7/jU6J9MkDeJLxFSsruIEurNbf0hpV2sRqvIqWbVOcNWza0JY4M6wJ2KeNW3994x+lwU65f6c/h0H7/J3hgTG8WT1ezPxgPGqba/D5OtNS3nZTlrAiviskAA=="};
+const u8=b=>Uint8Array.from(atob(b),c=>c.charCodeAt(0));
+let links=[];
+async function unlock(pw){
+  const km=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);
+  const key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:u8(D.s),iterations:300000,hash:"SHA-256"},km,{name:"AES-GCM",length:256},false,["decrypt"]);
+  const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:u8(D.i)},key,u8(D.c));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+async function tryLogin(){
+  const err=document.getElementById("err");err.textContent="";
+  try{
+    links=await unlock(document.getElementById("pw").value);
+    const box=document.getElementById("items");box.innerHTML="";
+    links.forEach((l,i)=>{
+      const a=document.createElement("a");
+      a.className="link";a.href=l;a.target="_blank";a.rel="noopener noreferrer";
+      let host="";try{host=new URL(l).hostname.replace("www.","")}catch(e){}
+      a.textContent=(i+1)+". "+host;
+      box.appendChild(a);
+    });
+    document.getElementById("lock").style.display="none";
+    document.getElementById("list").style.display="block";
+  }catch(e){err.textContent="Senha incorreta.";}
+}
+document.getElementById("go").onclick=tryLogin;
+document.getElementById("pw").addEventListener("keydown",e=>{if(e.key==="Enter")tryLogin()});
+document.getElementById("all").onclick=()=>{links.forEach(l=>window.open(l,"_blank","noopener,noreferrer"))};
+document.getElementById("out").onclick=()=>location.reload();
+</script>
+</body>
+</html>
